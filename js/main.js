@@ -1,3 +1,5 @@
+import { Pilota } from "./Pilota.js";
+
 // Preparació del canvas ----------------------
 /* Obté una referència a <canvas>, després crida al mètode getContext()
   per definir un context al el que es pot començar a dibuisar
@@ -25,3 +27,6 @@ function random(min, max) {
 function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
+
+let Pilota1 = new Pilota(50, 100, 4, 4, "blue", 10);
+Pilota1.dibuixa(ctx);
