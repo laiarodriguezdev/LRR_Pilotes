@@ -28,5 +28,40 @@ function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
 
-let Pilota1 = new Pilota(50, 100, 4, 4, "blue", 10);
-Pilota1.dibuixa(ctx);
+// let Pilota1 = new Pilota(50, 100, 4, 4, "blue", 10);
+// Pilota1.dibuixa(ctx);
+
+let pilotes = [];
+
+for (let i = 0; i < 25; i++) {
+  const mida = random(10, 20);
+  const x = random(mida, width - mida);
+  const y = random(mida, height - mida);
+  const velX = random(-5.5, 5.5);
+  const velY = random(-5.5, 5.5);
+  const color = randomRGB();
+
+  const pilota = new Pilota(x, y, velX, velY, color, mida);
+  pilotes.push(pilota);
+}
+
+function collision(){
+  
+}
+
+function loop(){
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0,0, width, height);
+
+  // console.log(pilotes);
+  pilotes.forEach((pilota) => {
+    pilota.dibuixa(ctx);
+    pilota.mou(width, height);
+  });
+
+  collision();
+
+  requestAnimationFrame(loop);
+}
+
+loop();
