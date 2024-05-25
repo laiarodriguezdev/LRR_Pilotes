@@ -46,7 +46,7 @@ for (let i = 0; i < 25; i++) {
 }
 
 function collision(){
-  
+  console.log("Collision");
 }
 
 function loop(){
