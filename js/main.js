@@ -9,8 +9,8 @@ import { Pilota } from "./Pilota.js";
   width and height són dreceres a l'ample i alt del canvas  que coincideixen
   amb l'alt i ample del navegador (viewport)
 */
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
 
 const width = (canvas.width = window.innerWidth);
 const height = (canvas.height = window.innerHeight);
@@ -45,15 +45,47 @@ for (let i = 0; i < 25; i++) {
   pilotes.push(pilota);
 }
 
-function collision(){
-  console.log("Collision");
+function collision() {
+  //console.log("Collision");
+  for (let i = 0; i < pilotes.length; i++) {
+    for (let j = i + 1; j < pilotes.length; j++) {
+      const pilota1 = pilotes[i];
+      const pilota2 = pilotes[j];
+
+      const dx = pilota2.x - pilota1.x;
+      const dy = pilota2.y - pilota1.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      // console.log("DISTANCE" + distance);
+
+      if (distance < (pilota1.mida + pilota2.mida)) {
+        //console.log(`Collision detectada entre pilota" ${i} i pilota ${j}`);
+
+        const overlap = (pilota1.mida + pilota2.mida - distance) / 2;
+        const angle = Math.atan2(dy, dx);
+        const moveX = overlap * Math.cos(angle);
+        const moveY = overlap * Math.sin(angle);
+
+        pilota1.x -= moveX;
+        pilota1.y -= moveY;
+        pilota2.x += moveX;
+        pilota2.y += moveY;
+
+        // VelX es converteix en tempVelX per intercanviar el """"sentit"""" de la pilota.
+        const tempVelX = pilota1.velX;
+        const tempVelY = pilota1.velY;
+        pilota1.velX = pilota2.velX;
+        pilota1.velY = pilota2.velY;
+        pilota2.velX = tempVelX;
+        pilota2.velY = tempVelY;
+      }
+    }
+  }
 }
 
-function loop(){
-  ctx.fillStyle = 'black';
-  ctx.fillRect(0,0, width, height);
+function loop() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, width, height);
 
-  // console.log(pilotes);
   pilotes.forEach((pilota) => {
     pilota.dibuixa(ctx);
     pilota.mou(width, height);
